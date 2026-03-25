@@ -736,6 +736,17 @@ textarea {
   margin: 1.4em 0;
 }
 
+.article-content .obsidian-missing {
+  display: block;
+  margin: 1.2em 0;
+  padding: 14px 16px;
+  border: 1px dashed var(--line-strong);
+  color: var(--muted);
+  background: #fafafa;
+  font-family: var(--ui-font);
+  font-size: 0.94rem;
+}
+
 .article-content code {
   padding: 0.18em 0.42em;
   border-radius: 0;
