@@ -4,14 +4,16 @@
   
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>图库 | 甜筒博客</title>
+<title>图库 | TETice's Page</title>
 <meta name="description" content="用来集中展示照片、插图、封面图和视觉灵感的页面。">
 <meta name="generator" content="Hexo">
-<meta name="theme-color" content="#f5efe6">
+<meta name="theme-color" content="#ffffff">
 <link rel="icon" href="/img/logo-mark.svg" type="image/svg+xml">
+
+  <link rel="alternate" type="application/atom+xml" title="TETice's Page" href="/feed.xml">
+
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="alternate" href="/feed.xml" title="甜筒博客" type="application/atom+xml">
 </head>
 <body class="is-inner">
   <div class="page-frame">
@@ -19,11 +21,11 @@
 
 <header class="site-header" id="site-header">
   <div class="site-header-inner">
-    <a class="brand" href="/" aria-label="甜筒博客">
+    <a class="brand" href="/" aria-label="TETice's Page">
       <span class="brand-mark"></span>
       <span class="brand-copy">
-        <strong>甜筒博客</strong>
-        <small>记录技术与生活</small>
+        <strong>TETice's Page</strong>
+        <small>记录技术、设计和生活</small>
       </span>
     </a>
 
@@ -93,7 +95,7 @@
     <article class="article-card gallery-card">
       <header class="article-header-block">
         <h2 class="article-title is-page-title">图片存档</h2>
-        <div class="post-meta">
+        <div class="post-meta gallery-meta">
           <span class="meta-chip"><strong>2</strong> 个分组</span>
           <span class="meta-chip"><strong>6</strong> 张图片</span>
         </div>
@@ -101,7 +103,7 @@
 
       
         <div class="article-content gallery-intro">
-          <p>这里既可以手动维护图片分组，也可以在文章里使用 <code>cover</code>、<code>photos</code> 或 <code>gallery</code> 字段，主题会自动把内容汇总过来。</p>
+          <p>这里集中收纳文章里出现过的封面、插图和照片。你既可以手动维护 <code>gallery_sections</code>，也可以在文章里使用 <code>cover</code>、<code>photos</code> 或 <code>gallery</code> 字段，让主题自动汇总图片内容。</p>
 
         </div>
       
@@ -118,7 +120,10 @@
                     <p>用几张偏静态的画面，先把图库布局和灯箱交互跑起来。</p>
                   
                 </div>
-                
+                <div class="gallery-section-side">
+                  <span class="gallery-section-count">3 张</span>
+                  
+                </div>
               </div>
 
               <div class="gallery-grid">
@@ -174,7 +179,10 @@
                     <p>你后续可以把文章里的摄影图集中汇总到这里。</p>
                   
                 </div>
-                
+                <div class="gallery-section-side">
+                  <span class="gallery-section-count">3 张</span>
+                  
+                </div>
               </div>
 
               <div class="gallery-grid">
@@ -230,7 +238,7 @@
     </main>
     <footer class="site-footer">
   <div class="site-footer-inner">
-    <span>&copy; 2026 Jason</span>
+    <span>&copy; 2026 TETice</span>
     <span>Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a></span>
     
   </div>

@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <author>
-    <name>Jason</name>
+    <name>TETice</name>
   </author>
   <generator uri="https://hexo.io/">Hexo</generator>
   <id>https://tetice.github.io/</id>
   <link href="https://tetice.github.io/" rel="alternate"/>
   <link href="https://tetice.github.io/feed.xml" rel="self"/>
-  <rights>All rights reserved 2026, Jason</rights>
-  <subtitle>记录技术与生活</subtitle>
-  <title>甜筒博客</title>
-  <updated>2026-03-25T08:13:42.425Z</updated>
+  <rights>All rights reserved 2026, TETice</rights>
+  <subtitle>记录技术、设计和生活</subtitle>
+  <title>TETice's Page</title>
+  <updated>2026-03-25T08:55:17.265Z</updated>
   <entry>
     <author>
-      <name>Jason</name>
+      <name>TETice</name>
     </author>
-    <category term="其它" scheme="https://tetice.github.io/categories/%E5%85%B6%E5%AE%83/"/>
+    <category term="博客" scheme="https://tetice.github.io/categories/%E5%8D%9A%E5%AE%A2/"/>
     <category term="Hexo" scheme="https://tetice.github.io/tags/Hexo/"/>
-    <category term="入门" scheme="https://tetice.github.io/tags/%E5%85%A5%E9%97%A8/"/>
+    <category term="主题" scheme="https://tetice.github.io/tags/%E4%B8%BB%E9%A2%98/"/>
+    <category term="记录" scheme="https://tetice.github.io/tags/%E8%AE%B0%E5%BD%95/"/>
     <content>
-      <![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]>
+      <![CDATA[<p>这次把站点从默认主题收回到一套更轻、更白、更适合长期写作的内容主题里。首页、文章页、图库、归档和评论系统现在已经统一起来，后续更新只需要专注在内容本身。</p><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>原先站点还是 Hexo 默认结构和默认内容，页面虽然能用，但信息层级、视觉质感和后续维护成本都不太对。尤其是默认的侧栏、配色和占位文案，会让整个博客看起来像刚初始化完成，还没真正开始写作。</p><p>这次改版的目标很明确：</p><ul><li>视觉上改成简约白底分格</li><li>结构上更适合内容型博客长期积累</li><li>功能上补齐评论、图库、归档和 RSS</li><li>写作上让后续更新尽量只围绕 Markdown 本身</li></ul><h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><p>这一版主题围绕四个核心页面去收结构：首页负责精选和最近更新，文章页负责阅读体验，图库页负责集中整理图片，关于页负责替代原来过度泛化的个人介绍模板。</p><p>同时把文章 scaffold 也整理好了，后续每次新建文章时都会带上这些常用字段：</p><ul><li><code>title</code></li><li><code>subtitle</code></li><li><code>description</code></li><li><code>cover</code></li><li><code>series</code></li><li><code>categories</code></li><li><code>tags</code></li><li><code>featured</code></li><li><code>comments</code></li></ul><p>这样更新的时候不用每次临时想 front matter 应该怎么写，直接填内容就行。</p><p>评论系统现在接的是 <code>utterances</code>，也就是把评论落在 GitHub Issues 里。对个人博客来说这套方案很轻，不需要自己维护服务端。</p><h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>现在这套博客已经不是“演示站”状态了，而是可以直接持续更新的内容站。接下来你只需要把封面、图片和文章不断替换成自己的真实内容，整站就会越来越完整。</p><p>后续我会继续沿着这个方向迭代：让文章页更稳、内容更真、页面更少但更有用。</p>]]>
     </content>
     <id>https://tetice.github.io/2026/03/25/hello-world/</id>
     <link href="https://tetice.github.io/2026/03/25/hello-world/"/>
-    <published>2026-03-25T06:30:00.000Z</published>
-    <summary>Hexo 默认示例文章，用来验证新主题的首页与文章页布局。</summary>
-    <title>Hello World</title>
-    <updated>2026-03-25T08:13:42.425Z</updated>
+    <published>2026-03-25T08:50:00.000Z</published>
+    <summary>这篇文章用来说明博客这次改版后的结构、视觉方向，以及后续会持续更新的内容。</summary>
+    <title>博客改版记录</title>
+    <updated>2026-03-25T08:55:17.265Z</updated>
   </entry>
 </feed>
