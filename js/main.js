@@ -1,5 +1,6 @@
 (() => {
   const body = document.body;
+  const OWNER_MODE_KEY = 'tetice-owner-mode';
   const menuToggle = document.querySelector('[data-menu-toggle]');
   const menuPanel = document.querySelector('[data-menu-panel]');
   const tocButton = document.querySelector('[data-toc-toggle]');
@@ -7,6 +8,23 @@
   const tocClose = document.querySelector('[data-toc-close]');
   const tocPanel = document.querySelector('.toc-panel.has-content');
   const backToTop = document.getElementById('back-to-top');
+
+  const syncOwnerMode = enabled => {
+    body.classList.toggle('owner-mode', enabled);
+  };
+
+  try {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('owner') === 'on') {
+      localStorage.setItem(OWNER_MODE_KEY, '1');
+    }
+    if (params.get('owner') === 'off') {
+      localStorage.removeItem(OWNER_MODE_KEY);
+    }
+    syncOwnerMode(localStorage.getItem(OWNER_MODE_KEY) === '1');
+  } catch (_) {
+    syncOwnerMode(false);
+  }
 
   const setMenuOpen = open => {
     body.classList.toggle('menu-open', open);
