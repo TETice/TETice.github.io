@@ -1,6 +1,10 @@
 (() => {
   const body = document.body;
+  const html = document.documentElement;
   const OWNER_MODE_KEY = 'tetice-owner-mode';
+  const LANG_KEY = 'tetice-site-lang';
+  const ATTR_TRANSLATIONS = ['aria-label', 'title', 'placeholder', 'content'];
+
   const menuToggle = document.querySelector('[data-menu-toggle]');
   const menuPanel = document.querySelector('[data-menu-panel]');
   const tocButton = document.querySelector('[data-toc-toggle]');
@@ -8,9 +12,64 @@
   const tocClose = document.querySelector('[data-toc-close]');
   const tocPanel = document.querySelector('.toc-panel.has-content');
   const backToTop = document.getElementById('back-to-top');
+  const languageButtons = [...document.querySelectorAll('[data-set-lang]')];
+
+  const normalizeLang = value => String(value || '').toLowerCase().startsWith('en') ? 'en' : 'zh-CN';
+  const defaultLang = normalizeLang(body.dataset.defaultLang || 'zh-CN');
+  const supportedLangs = (body.dataset.supportedLangs || 'zh-CN,en')
+    .split(',')
+    .map(item => normalizeLang(item.trim()))
+    .filter(Boolean);
 
   const syncOwnerMode = enabled => {
     body.classList.toggle('owner-mode', enabled);
+  };
+
+  const resolveLangValue = (zh, en, lang) => (
+    lang === 'en'
+      ? (en || zh || '')
+      : (zh || en || '')
+  );
+
+  const applyLanguage = lang => {
+    const nextLang = supportedLangs.includes(normalizeLang(lang))
+      ? normalizeLang(lang)
+      : defaultLang;
+
+    body.dataset.siteLang = nextLang;
+    html.lang = nextLang;
+
+    document.querySelectorAll('[data-l10n-zh], [data-l10n-en]').forEach(node => {
+      const zh = node.getAttribute('data-l10n-zh');
+      const en = node.getAttribute('data-l10n-en');
+      node.textContent = resolveLangValue(zh, en, nextLang);
+    });
+
+    ATTR_TRANSLATIONS.forEach(attr => {
+      document
+        .querySelectorAll(`[data-l10n-${attr}-zh], [data-l10n-${attr}-en]`)
+        .forEach(node => {
+          const zh = node.getAttribute(`data-l10n-${attr}-zh`);
+          const en = node.getAttribute(`data-l10n-${attr}-en`);
+          const value = resolveLangValue(zh, en, nextLang);
+
+          if (value) {
+            node.setAttribute(attr, value);
+          }
+        });
+    });
+
+    languageButtons.forEach(button => {
+      const active = normalizeLang(button.dataset.setLang) === nextLang;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+
+    try {
+      localStorage.setItem(LANG_KEY, nextLang);
+    } catch (_) {
+      // Ignore storage failures.
+    }
   };
 
   try {
@@ -22,9 +81,20 @@
       localStorage.removeItem(OWNER_MODE_KEY);
     }
     syncOwnerMode(localStorage.getItem(OWNER_MODE_KEY) === '1');
+
+    const langFromQuery = params.get('lang');
+    const langFromStorage = localStorage.getItem(LANG_KEY);
+    applyLanguage(langFromQuery || langFromStorage || defaultLang);
   } catch (_) {
     syncOwnerMode(false);
+    applyLanguage(defaultLang);
   }
+
+  languageButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      applyLanguage(button.dataset.setLang);
+    });
+  });
 
   const setMenuOpen = open => {
     body.classList.toggle('menu-open', open);
@@ -137,9 +207,14 @@
     if (!lightboxImage || !lightboxCaption || !activeGroup.length) return;
     activeIndex = (index + activeGroup.length) % activeGroup.length;
     const node = activeGroup[activeIndex];
+    const lang = normalizeLang(body.dataset.siteLang || defaultLang);
+    const caption = lang === 'en'
+      ? (node.dataset.captionEn || node.dataset.caption || '')
+      : (node.dataset.caption || node.dataset.captionEn || '');
+
     lightboxImage.src = node.href;
-    lightboxImage.alt = node.querySelector('img')?.alt || node.dataset.caption || '';
-    lightboxCaption.textContent = node.dataset.caption || '';
+    lightboxImage.alt = node.querySelector('img')?.alt || caption || '';
+    lightboxCaption.textContent = caption;
   };
 
   const openLightbox = (groupKey, clickedNode) => {

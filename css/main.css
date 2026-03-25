@@ -37,6 +37,14 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+body[data-site-lang="zh-CN"] [data-lang-content="en"] {
+  display: none !important;
+}
+
+body[data-site-lang="en"] [data-lang-content="zh-CN"] {
+  display: none !important;
+}
+
 body.menu-open,
 body.toc-open,
 body.lightbox-open {
@@ -145,6 +153,35 @@ textarea {
 
 .buttonSet {
   gap: 18px;
+}
+
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+}
+
+.lang-option {
+  min-width: 38px;
+  height: 30px;
+  padding: 0 10px;
+  border: 0;
+  background: transparent;
+  color: #777777;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.lang-option.is-active {
+  background: #1f1f1f;
+  color: #ffffff;
+}
+
+.lang-option:hover {
+  color: var(--accent);
 }
 
 .button.toc {
@@ -1183,6 +1220,13 @@ body.owner-mode .owner-only-action {
   line-height: 1.2;
 }
 
+.gallery-group-description {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.75;
+}
+
 .gallery-group-meta {
   display: flex;
   align-items: center;
@@ -1866,6 +1910,15 @@ body.toc-open .toc-drawer {
 @media (max-width: 560px) {
   .button.rss {
     display: none;
+  }
+
+  .lang-switch {
+    gap: 2px;
+  }
+
+  .lang-option {
+    min-width: 34px;
+    padding: 0 8px;
   }
 
   .button.toc {
