@@ -490,98 +490,165 @@ textarea {
   line-height: 1.8;
 }
 
-#archive .two-columns {
+.archive-overview {
+  max-width: 860px;
+}
+
+.archive-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 48px;
+  gap: 54px;
 }
 
-#archive aside {
-  margin-bottom: 34px;
+.archive-block + .archive-block,
+.archive-series-block,
+.archive-tags-block {
+  margin-top: 34px;
 }
 
-#archive h2 {
-  margin: 0 0 16px;
-  font-size: 2rem;
-  line-height: 1.15;
+.archive-block h2,
+.archive-detail-header h1,
+.archive-month-group h2 {
+  margin: 0 0 14px;
+  color: var(--ink);
+  letter-spacing: -0.03em;
 }
 
-.archive-list,
-.archive-list .category-list,
-.archive-list .archive-list-item {
-  list-style: none;
+.archive-block h2 {
+  font-size: 1.14rem;
+  line-height: 1.2;
+}
+
+.archive-compact-list,
+.archive-post-list {
+  margin: 0;
   padding: 0;
-  margin: 0;
+  list-style: none;
 }
 
-.archive-list {
+.archive-compact-list {
   display: grid;
-  gap: 10px;
+  gap: 6px;
 }
 
-.archive-list-item {
+.archive-compact-item {
   margin: 0;
 }
 
-.archive-list-link {
+.archive-compact-link {
   display: flex;
-  align-items: flex-end;
+  align-items: baseline;
   justify-content: space-between;
-  gap: 16px;
-  padding: 3px 0;
-  color: var(--text);
+  gap: 14px;
+  padding: 2px 0;
+  color: #3b3b3b;
+  font-size: 0.96rem;
+  line-height: 1.8;
+}
+
+.archive-compact-link.is-static {
+  cursor: default;
 }
 
 .archive-list-count {
-  color: var(--muted);
-  font-size: 0.94rem;
+  color: #a4a4a4;
+  font-family: var(--ui-font);
+  font-size: 0.84rem;
 }
 
-.category-list,
-.category-list-item {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.category-list {
-  display: grid;
-  gap: 10px;
-}
-
-.category-list-link {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 3px 0;
-  color: var(--text);
-}
-
-.category-list-count {
-  color: var(--muted);
-  font-size: 0.94rem;
-}
-
-.tag-list-wrap {
-  margin-top: 4px;
-}
-
-.tag-list {
+.archive-tag-cloud {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 16px;
-  padding: 0;
-  margin: 0;
-  list-style: none;
+  gap: 8px;
 }
 
-.tag-list-item {
-  margin: 0;
+.archive-tag-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 8px;
+  border: 1px solid var(--line-soft);
+  background: #fbfbfa;
+  color: #666666;
+  font-size: 0.78rem;
+  line-height: 1;
 }
 
-.tag-list-link {
+.archive-detail {
+  max-width: 880px;
+  margin: 0 auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.archive-detail-header {
+  margin-bottom: 28px;
+}
+
+.archive-detail-header h1 {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  line-height: 1.08;
+}
+
+.archive-detail-header p {
+  margin: 0;
   color: var(--muted);
+  line-height: 1.8;
+}
+
+.archive-timeline {
+  display: grid;
+  gap: 32px;
+}
+
+.archive-month-group h2 {
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
+
+.archive-post-list {
+  display: grid;
+}
+
+.archive-post-item {
+  margin: 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.archive-post-link {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: start;
+  padding: 14px 0;
+}
+
+.archive-post-date,
+.archive-post-category {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.archive-post-copy {
+  min-width: 0;
+}
+
+.archive-post-title {
+  color: var(--ink);
+  font-size: 1.06rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.archive-post-summary {
+  margin-top: 4px;
+  color: #666666;
+  font-family: var(--content-font);
+  font-size: 0.95rem;
+  line-height: 1.8;
 }
 
 .post-page-shell {
@@ -1806,9 +1873,17 @@ body.toc-open .toc-drawer {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  #archive .two-columns {
+  .archive-grid {
     grid-template-columns: 1fr;
     gap: 18px;
+  }
+
+  .archive-post-link {
+    grid-template-columns: 96px minmax(0, 1fr);
+  }
+
+  .archive-post-category {
+    display: none;
   }
 
   .contact-list {
@@ -1885,7 +1960,7 @@ body.toc-open .toc-drawer {
   #top-posts > .post-item.primary .title,
   .post-title,
   .collection-header h1,
-  #archive h2 {
+  .archive-detail-header h1 {
     font-size: clamp(1.9rem, 9vw, 2.4rem);
   }
 
@@ -1904,6 +1979,15 @@ body.toc-open .toc-drawer {
 
   .post-nav-item.next {
     text-align: left;
+  }
+
+  .archive-post-link {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .archive-post-date {
+    font-size: 0.84rem;
   }
 }
 
