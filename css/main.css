@@ -458,6 +458,7 @@ textarea {
 }
 
 .site-stats a,
+.site-stats .site-stat,
 .site-link-card,
 .spotlight-card {
   border: 1px solid var(--line);
@@ -465,7 +466,8 @@ textarea {
   background: rgba(255, 255, 255, 0.7);
 }
 
-.site-stats a {
+.site-stats a,
+.site-stats .site-stat {
   display: grid;
   gap: 4px;
   padding: 16px;
