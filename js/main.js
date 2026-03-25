@@ -1,139 +1,165 @@
-/* eslint-disable node/no-unsupported-features/node-builtins */
-(function($, moment, ClipboardJS, config) {
-    $('.article img:not(".not-gallery-item")').each(function() {
-        // wrap images with link and add caption if possible
-        if ($(this).parent('a').length === 0) {
-            $(this).wrap('<a class="gallery-item" href="' + $(this).attr('src') + '"></a>');
-            if (this.alt) {
-                $(this).after('<p class="has-text-centered is-size-6 caption">' + this.alt + '</p>');
-            }
-        }
+(() => {
+  const body = document.body;
+  const menuToggle = document.querySelector('[data-menu-toggle]');
+  const menuPanel = document.querySelector('[data-menu-panel]');
+  const tocButton = document.querySelector('[data-toc-toggle]');
+  const tocDrawer = document.querySelector('[data-toc-drawer]');
+  const tocClose = document.querySelector('[data-toc-close]');
+  const tocPanel = document.querySelector('.toc-panel.has-content');
+  const backToTop = document.getElementById('back-to-top');
+
+  const setMenuOpen = open => {
+    body.classList.toggle('menu-open', open);
+    if (menuToggle) menuToggle.setAttribute('aria-expanded', String(open));
+  };
+
+  if (menuToggle && menuPanel) {
+    menuToggle.addEventListener('click', () => {
+      const nextState = !body.classList.contains('menu-open');
+      setMenuOpen(nextState);
+    });
+  }
+
+  const setTocOpen = open => {
+    body.classList.toggle('toc-open', open);
+    if (tocButton) tocButton.setAttribute('aria-expanded', String(open));
+  };
+
+  if (!tocPanel || !tocDrawer) {
+    if (tocButton) tocButton.style.display = 'none';
+  } else {
+    if (tocButton) {
+      tocButton.addEventListener('click', () => {
+        const nextState = !body.classList.contains('toc-open');
+        setTocOpen(nextState);
+      });
+    }
+
+    if (tocClose) {
+      tocClose.addEventListener('click', () => setTocOpen(false));
+    }
+
+    tocDrawer.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', () => setTocOpen(false));
+    });
+  }
+
+  if (backToTop) {
+    const syncBackToTop = () => {
+      backToTop.classList.toggle('is-visible', window.scrollY > 360);
+    };
+
+    window.addEventListener('scroll', syncBackToTop, { passive: true });
+    syncBackToTop();
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  const tocLinks = [...document.querySelectorAll('.toc-link, .toc-link-child')];
+  const tocTargets = tocLinks
+    .map(link => {
+      const href = link.getAttribute('href') || '';
+      if (!href.startsWith('#')) return null;
+      const id = decodeURIComponent(href.slice(1));
+      const target = document.getElementById(id);
+      if (!target) return null;
+      return { link, item: link.closest('li'), target };
+    })
+    .filter(Boolean);
+
+  if (tocTargets.length) {
+    const activate = currentId => {
+      tocTargets.forEach(({ link, item, target }) => {
+        const active = target.id === currentId;
+        link.classList.toggle('is-active', active);
+        if (item) item.classList.toggle('is-active', active);
+      });
+    };
+
+    const observer = new IntersectionObserver(entries => {
+      const visible = entries
+        .filter(entry => entry.isIntersecting)
+        .sort((left, right) => left.boundingClientRect.top - right.boundingClientRect.top)[0];
+
+      if (visible) activate(visible.target.id);
+    }, {
+      rootMargin: '-18% 0px -58% 0px',
+      threshold: [0, 0.1, 0.4, 1]
     });
 
-    if (typeof $.fn.lightGallery === 'function') {
-        $('.article').lightGallery({ selector: '.gallery-item' });
-    }
-    if (typeof $.fn.justifiedGallery === 'function') {
-        if ($('.justified-gallery > p > .gallery-item').length) {
-            $('.justified-gallery > p > .gallery-item').unwrap();
-        }
-        $('.justified-gallery').justifiedGallery();
-    }
+    tocTargets.forEach(({ target }) => observer.observe(target));
+    activate(tocTargets[0].target.id);
+  }
 
-    if (typeof moment === 'function') {
-        $('.article-meta time').each(function() {
-            $(this).text(moment($(this).attr('datetime')).fromNow());
-        });
-    }
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImage = document.getElementById('lightbox-image');
+  const lightboxCaption = document.getElementById('lightbox-caption');
+  const lightboxClose = lightbox?.querySelector('.lightbox-close');
+  const lightboxPrev = lightbox?.querySelector('.lightbox-nav.is-prev');
+  const lightboxNext = lightbox?.querySelector('.lightbox-nav.is-next');
+  const lightboxLinks = [...document.querySelectorAll('[data-lightbox]')];
+  const lightboxGroups = new Map();
+  let activeGroup = [];
+  let activeIndex = 0;
 
-    $('.article > .content > table').each(function() {
-        if ($(this).width() > $(this).parent().width()) {
-            $(this).wrap('<div class="table-overflow"></div>');
-        }
+  const closeLightbox = () => {
+    if (!lightbox) return;
+    lightbox.classList.remove('is-open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    body.classList.remove('lightbox-open');
+  };
+
+  const renderLightbox = index => {
+    if (!lightboxImage || !lightboxCaption || !activeGroup.length) return;
+    activeIndex = (index + activeGroup.length) % activeGroup.length;
+    const node = activeGroup[activeIndex];
+    lightboxImage.src = node.href;
+    lightboxImage.alt = node.querySelector('img')?.alt || node.dataset.caption || '';
+    lightboxCaption.textContent = node.dataset.caption || '';
+  };
+
+  const openLightbox = (groupKey, clickedNode) => {
+    if (!lightbox) return;
+    activeGroup = lightboxGroups.get(groupKey) || [clickedNode];
+    activeIndex = activeGroup.indexOf(clickedNode);
+    renderLightbox(activeIndex);
+    lightbox.classList.add('is-open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    body.classList.add('lightbox-open');
+  };
+
+  if (lightboxLinks.length && lightbox) {
+    lightboxLinks.forEach(node => {
+      const groupKey = node.dataset.group || 'default';
+      const list = lightboxGroups.get(groupKey) || [];
+      list.push(node);
+      lightboxGroups.set(groupKey, list);
+
+      node.addEventListener('click', event => {
+        event.preventDefault();
+        openLightbox(groupKey, node);
+      });
     });
 
-    function adjustNavbar() {
-        const navbarWidth = $('.navbar-main .navbar-start').outerWidth() + $('.navbar-main .navbar-end').outerWidth();
-        if ($(document).outerWidth() < navbarWidth) {
-            $('.navbar-main .navbar-menu').addClass('justify-content-start');
-        } else {
-            $('.navbar-main .navbar-menu').removeClass('justify-content-start');
-        }
-    }
-    adjustNavbar();
-    $(window).resize(adjustNavbar);
+    lightboxClose?.addEventListener('click', closeLightbox);
+    lightboxPrev?.addEventListener('click', () => renderLightbox(activeIndex - 1));
+    lightboxNext?.addEventListener('click', () => renderLightbox(activeIndex + 1));
 
-    function toggleFold(codeBlock, isFolded) {
-        const $toggle = $(codeBlock).find('.fold i');
-        !isFolded ? $(codeBlock).removeClass('folded') : $(codeBlock).addClass('folded');
-        !isFolded ? $toggle.removeClass('fa-angle-right') : $toggle.removeClass('fa-angle-down');
-        !isFolded ? $toggle.addClass('fa-angle-down') : $toggle.addClass('fa-angle-right');
-    }
+    lightbox.addEventListener('click', event => {
+      if (event.target === lightbox) closeLightbox();
+    });
 
-    function createFoldButton(fold) {
-        return '<span class="fold">' + (fold === 'unfolded' ? '<i class="fas fa-angle-down"></i>' : '<i class="fas fa-angle-right"></i>') + '</span>';
-    }
+    document.addEventListener('keydown', event => {
+      if (!lightbox.classList.contains('is-open')) return;
+      if (event.key === 'Escape') closeLightbox();
+      if (event.key === 'ArrowLeft') renderLightbox(activeIndex - 1);
+      if (event.key === 'ArrowRight') renderLightbox(activeIndex + 1);
+    });
+  }
 
-    $('figure.highlight table').wrap('<div class="highlight-body">');
-    if (typeof config !== 'undefined'
-        && typeof config.article !== 'undefined'
-        && typeof config.article.highlight !== 'undefined') {
-
-        $('figure.highlight').addClass('hljs');
-        $('figure.highlight .code .line span').each(function() {
-            const classes = $(this).attr('class').split(/\s+/);
-            for (const cls of classes) {
-                $(this).addClass('hljs-' + cls);
-                $(this).removeClass(cls);
-            }
-        });
-
-
-        const clipboard = config.article.highlight.clipboard;
-        const fold = config.article.highlight.fold.trim();
-
-        $('figure.highlight').each(function() {
-            if ($(this).find('figcaption').length) {
-                $(this).find('figcaption').addClass('level is-mobile');
-                $(this).find('figcaption').append('<div class="level-left">');
-                $(this).find('figcaption').append('<div class="level-right">');
-                $(this).find('figcaption div.level-left').append($(this).find('figcaption').find('span'));
-                $(this).find('figcaption div.level-right').append($(this).find('figcaption').find('a'));
-            } else {
-                if (clipboard || fold) {
-                    $(this).prepend('<figcaption class="level is-mobile"><div class="level-left"></div><div class="level-right"></div></figcaption>');
-                }
-            }
-        });
-
-        if (typeof ClipboardJS !== 'undefined' && clipboard) {
-            $('figure.highlight').each(function() {
-                const id = 'code-' + Date.now() + (Math.random() * 1000 | 0);
-                const button = '<a href="javascript:;" class="copy" title="Copy" data-clipboard-target="#' + id + ' .code"><i class="fas fa-copy"></i></a>';
-                $(this).attr('id', id);
-                $(this).find('figcaption div.level-right').append(button);
-            });
-            new ClipboardJS('.highlight .copy'); // eslint-disable-line no-new
-        }
-
-        if (fold) {
-            $('figure.highlight').each(function() {
-                $(this).addClass('foldable'); // add 'foldable' class as long as fold is enabled
-
-                if ($(this).find('figcaption').find('span').length > 0) {
-                    const span = $(this).find('figcaption').find('span');
-                    if (span[0].innerText.indexOf('>folded') > -1) {
-                        span[0].innerText = span[0].innerText.replace('>folded', '');
-                        $(this).find('figcaption div.level-left').prepend(createFoldButton('folded'));
-                        toggleFold(this, true);
-                        return;
-                    }
-                }
-                $(this).find('figcaption div.level-left').prepend(createFoldButton(fold));
-                toggleFold(this, fold === 'folded');
-            });
-
-            $('figure.highlight figcaption .level-left').click(function() {
-                const $code = $(this).closest('figure.highlight');
-                toggleFold($code.eq(0), !$code.hasClass('folded'));
-            });
-        }
-    }
-
-    const $toc = $('#toc');
-    if ($toc.length > 0) {
-        const $mask = $('<div>');
-        $mask.attr('id', 'toc-mask');
-
-        $('body').append($mask);
-
-        function toggleToc() { // eslint-disable-line no-inner-declarations
-            $toc.toggleClass('is-active');
-            $mask.toggleClass('is-active');
-        }
-
-        $toc.on('click', toggleToc);
-        $mask.on('click', toggleToc);
-        $('.navbar-main .catalogue').on('click', toggleToc);
-    }
-}(jQuery, window.moment, window.ClipboardJS, window.IcarusThemeSettings));
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 860) setMenuOpen(false);
+  });
+})();
