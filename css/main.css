@@ -797,6 +797,18 @@ textarea {
   margin: 0;
 }
 
+.comments-header {
+  display: grid;
+  gap: 8px;
+}
+
+.comments-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
 .comments-card {
   border-top-width: 1px;
 }
