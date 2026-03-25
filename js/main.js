@@ -18,6 +18,10 @@
       const nextState = !body.classList.contains('menu-open');
       setMenuOpen(nextState);
     });
+
+    menuPanel.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => setMenuOpen(false));
+    });
   }
 
   const setTocOpen = open => {
@@ -160,6 +164,6 @@
   }
 
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 860) setMenuOpen(false);
+    if (window.innerWidth > 760) setMenuOpen(false);
   });
 })();

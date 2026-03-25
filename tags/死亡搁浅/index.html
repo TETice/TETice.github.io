@@ -19,37 +19,35 @@
   <div class="page-frame">
     
 
-<header class="site-header" id="site-header">
-  <div class="site-header-inner">
-    <a class="brand" href="/" aria-label="TETice's Page">
-      <span class="brand-mark"></span>
-      <span class="brand-copy">
-        <strong>TETice's Page</strong>
-        <small>记录技术、设计和生活</small>
-      </span>
-    </a>
+<header class="nav-header is-post" id="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <a class="title" href="/" aria-label="TETice's Page">TETice's Page</a>
 
-    <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-label="打开导航">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+      <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-label="打开导航">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
 
-    <div class="header-right" data-menu-panel>
-      <nav class="site-nav" aria-label="主导航">
-        
-          <a class="nav-link " href="/gallery/">图库</a>
-        
-          <a class="nav-link " href="/about/">关于我</a>
-        
-      </nav>
-
-      <div class="header-actions">
-        
-          <a class="icon-button rss-button" href="/feed.xml" target="_blank" rel="noopener" aria-label="RSS 订阅">RSS</a>
-        
-        <button class="icon-button toc-button" type="button" data-toc-toggle aria-expanded="false" aria-label="打开目录">目录</button>
+      <div class="nav-panel" data-menu-panel>
+        <nav class="navItems" aria-label="主导航">
+          
+            <a class="navItem " href="/archives/">归档</a>
+          
+            <a class="navItem " href="/gallery/">图库</a>
+          
+            <a class="navItem " href="/about/">关于我</a>
+          
+        </nav>
       </div>
+    </div>
+
+    <div class="buttonSet">
+      
+        <a class="button rss" href="/feed.xml" target="_blank" rel="noopener" aria-label="RSS">RSS</a>
+      
+      <button class="button toc" type="button" data-toc-toggle aria-expanded="false" aria-label="打开目录">目录</button>
     </div>
   </div>
 </header>
@@ -58,52 +56,54 @@
       
 
 <section class="collection-page">
-  <header class="page-hero">
-    <span class="eyebrow">Collection</span>
+  <header class="collection-header">
     <h1># undefined</h1>
     <p>按标签聚合的相关文章。</p>
   </header>
 
   
-    <div class="stack-list">
+    <div id="recent-posts">
       
         
 
-<article class="list-card">
-  <a class="list-card-main" href="/2026/03/25/%E6%AD%BB%E4%BA%A1%E6%90%81%E6%B5%852%E8%AE%B0%E5%BD%95/">
-    <div class="list-card-copy">
-      <h2 class="list-card-title">
-        <span>死亡搁浅2记录</span>
-        
-      </h2>
+<article class="post-item">
+  <div class="item-body">
+    <div class="title-excerpt">
+      <div class="title-excerpt-text">
+        <a class="title" href="/2026/03/25/%E6%AD%BB%E4%BA%A1%E6%90%81%E6%B5%852%E8%AE%B0%E5%BD%95/">死亡搁浅2记录
+          
+        </a>
 
-      
-        <div class="tag-row">
-          
-            <span class="tag-chip">game</span>
-          
-            <span class="tag-chip">死亡搁浅</span>
-          
-            <span class="tag-chip">游戏</span>
-          
-        </div>
-      
-
-      <p class="list-card-excerpt">记录图片</p>
-
-      <div class="list-card-meta">
-        <time datetime="2026-03-25T12:12:01.000Z">3 月 25 日，2026</time>
         
-          <span>生活</span>
+          <div class="tags">
+            
+              <a class="tag-item" href="/tags/game/">game</a>
+            
+              <a class="tag-item" href="/tags/%E6%AD%BB%E4%BA%A1%E6%90%81%E6%B5%85/">死亡搁浅</a>
+            
+              <a class="tag-item" href="/tags/%E6%B8%B8%E6%88%8F/">游戏</a>
+            
+          </div>
         
-        <span>约 1 分钟阅读</span>
+
+        <div class="excerpt">记录图片</div>
+      </div>
+
+      <div class="post-meta">
+        <time class="date" datetime="2026-03-25T12:12:01.000Z">3 月 25 日，2026</time>
+        
+          <span class="categories">
+            <a class="category-item" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+          </span>
+        
+        <span class="read-time"><span>约</span> <span>1</span> <span>分钟阅读</span></span>
       </div>
     </div>
 
-    <div class="list-card-cover">
+    <a class="cover-img cover-link" href="/2026/03/25/%E6%AD%BB%E4%BA%A1%E6%90%81%E6%B5%852%E8%AE%B0%E5%BD%95/" aria-label="死亡搁浅2记录">
       <img src="/obsidian-assets/assets/deathstranding/DEATH%20STRANDING%202_%20ON%20THE%20BEACH_20260321200226.jpg" alt="死亡搁浅2记录" loading="lazy">
-    </div>
-  </a>
+    </a>
+  </div>
 </article>
 
       
@@ -115,11 +115,13 @@
 
 
     </main>
-    <footer class="site-footer">
-  <div class="site-footer-inner">
-    <span>&copy; 2026 TETice</span>
-    <span>Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a></span>
-    
+    <footer id="footer">
+  <div class="footerInner">
+    <div class="footerItems">
+      <span class="footerItem">&copy; 2026 TETice</span>
+      <span class="footerItem">Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a></span>
+      
+    </div>
   </div>
 </footer>
 
