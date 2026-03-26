@@ -665,6 +665,19 @@ textarea {
 
 .side-content {
   min-width: 0;
+  align-self: start;
+}
+
+.side-content-inner {
+  position: sticky;
+  top: 50vh;
+  display: grid;
+  gap: 22px;
+  max-height: calc(100vh - 120px);
+  padding-right: 6px;
+  overflow-y: auto;
+  transform: translateY(-50%);
+  scrollbar-width: thin;
 }
 
 .content-outer {
@@ -676,8 +689,7 @@ textarea {
 }
 
 .toc-panel {
-  position: sticky;
-  top: 95px;
+  position: static;
 }
 
 .toc-panel.is-empty {
@@ -1218,8 +1230,12 @@ body.owner-mode .owner-only-action {
 
 .gallery-aside-inner {
   position: sticky;
-  top: clamp(112px, 24vh, 252px);
+  top: 50vh;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
   padding-top: 0;
+  transform: translateY(-50%);
+  scrollbar-width: thin;
 }
 
 .gallery-aside-mark {
@@ -1887,7 +1903,10 @@ body.toc-open .toc-drawer {
 
   .gallery-aside-inner {
     position: static;
+    max-height: none;
     padding-top: 0;
+    overflow: visible;
+    transform: none;
   }
 
   .gallery-aside-mark {
