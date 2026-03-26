@@ -1409,26 +1409,20 @@ body.owner-mode .owner-only-action {
 }
 
 .view-about .content-inner {
-  max-width: 1060px;
-}
-
-.view-about .post-cover-img-wrap {
-  margin-bottom: 28px;
-}
-
-.view-about .post-cover-img-wrap .cover-img {
-  aspect-ratio: 16 / 6;
+  max-width: 760px;
 }
 
 .view-about .post-title {
-  font-size: clamp(2.5rem, 4.2vw, 3.55rem);
+  margin: 0 0 18px;
+  font-size: clamp(2.3rem, 6vw, 3.6rem);
 }
 
 .view-about .post-meta {
-  margin-bottom: 30px;
+  display: none;
 }
 
 .view-about .article {
+  padding-top: 0;
   padding-bottom: 0;
   border-bottom: 0;
 }
@@ -1442,85 +1436,63 @@ body.owner-mode .owner-only-action {
 }
 
 .view-about .article-content h2 {
-  margin-top: 2.5em;
-  padding-top: 18px;
-  border-top: 1px solid var(--line);
-  font-size: 2rem;
+  margin-top: 2.4em;
+  padding-top: 0;
+  border-top: 0;
+  font-size: 1.12rem;
+  letter-spacing: 0;
 }
 
 .view-about .article-content h3 {
-  font-size: 1.24rem;
+  font-size: 1rem;
 }
 
-.about-profile {
+.about-intro {
   display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
-  gap: 30px;
-  align-items: start;
-  margin-bottom: 18px;
+  gap: 16px;
 }
 
-.about-profile-media {
-  padding: 20px;
-  border: 1px solid var(--line);
-  background: linear-gradient(180deg, #fbfbfa, #ffffff);
-}
-
-.article-content .about-profile-avatar {
-  width: 132px;
-  height: 132px;
-  margin: 0 auto 18px;
+.article-content .about-avatar {
+  width: 86px;
+  height: 86px;
+  margin: 0 0 6px;
   border-radius: 50%;
   border: 1px solid var(--line);
 }
 
-.about-identity {
-  text-align: center;
-}
-
-.about-identity strong {
-  display: block;
+.about-summary {
+  margin: 0;
   color: var(--ink);
-  font-family: var(--ui-font);
-  font-size: 1.18rem;
-  letter-spacing: -0.02em;
+  font-size: 1.08rem;
+  line-height: 1.9;
 }
 
-.about-identity span {
-  display: block;
-  margin-top: 6px;
-  color: var(--muted);
-  font-family: var(--ui-font);
-  font-size: 0.92rem;
+.view-about .article-content p {
+  max-width: 62ch;
 }
 
-.about-profile-copy {
-  padding-top: 6px;
+.about-section-compact + .about-section-compact {
+  margin-top: 30px;
 }
 
-.about-section + .about-section {
+.about-simple-list {
+  margin: 0;
+  padding-left: 1.2em;
+  color: var(--text);
+  line-height: 1.9;
+}
+
+.about-simple-list li + li {
   margin-top: 8px;
 }
 
-.about-lead {
-  margin-top: 0;
-  color: var(--ink);
-  font-size: 1.14rem;
-  line-height: 1.95;
-}
-
-.about-profile-copy p:last-child {
-  margin-bottom: 0;
-}
-
-.about-quick-links {
+.about-links {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 18px;
 }
 
-.about-quick-links a {
+.about-links a {
   display: inline-flex;
   align-items: center;
   min-height: 38px;
